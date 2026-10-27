@@ -1,3 +1,4 @@
+
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
@@ -8,6 +9,7 @@ spec:
       image: alpine:3.14
       script: |
         #!/bin/sh
+        set -e
         echo "Cleaning workspace..."
         rm -rf /workspace/*
 
@@ -18,12 +20,17 @@ metadata:
   name: test-task
 spec:
   steps:
-    - name: run-tests
-      image: node:18
+    - name: Run unit tests with nose
+      image: python:3.8
       workingDir: /workspace
       script: |
         #!/bin/sh
+        set -e
         echo "Installing dependencies..."
-        npm install
-        echo "Running Jest tests..."
-        npm test
+        python -m pip install --upgrade pip
+        pip install flake8 nose
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        fi
+        echo "Running unit tests with nose..."
+        nosetests
