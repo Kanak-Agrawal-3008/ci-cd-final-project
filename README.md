@@ -1,39 +1,24 @@
+
 # ci-cd-final-project
 
-This repository contains the template to be used for the Final Project for the Coursera course **CI/CD Tools and Practices**.
+This repository contains the CI/CD Tools and Practices final project for the Coursera course.
 
-## Usage
+## Project Overview
 
-This repository is to be used as a template to create your own repository in your own GitHub account. No need to Fork it as it has been set up as a Template. This will avoid confusion when making Pull Requests in the future.
+This project demonstrates continuous integration using GitHub Actions, code linting with Flake8, unit testing with Nose, and task automation using Tekton.
 
-From the GitHub **Code** page, press the green **Use this template** button to create your own repository from this template.
+## Technologies Used
 
-Name your repo: `ci-cd-final-project`.
+- Python
+- GitHub Actions
+- Flake8
+- Nose
+- Tekton
 
-## Setup
+## Continuous Integration
 
-After entering the lab environment you will need to run the `setup.sh` script in the `./bin` folder to install the prerequisite software.
+The GitHub Actions workflow runs when code is pushed to the main branch or when a pull request targets the main branch. It installs dependencies, checks code quality with Flake8, and runs unit tests with Nose.
 
-```bash
-bash bin/setup.sh
-```
+## Tekton Tasks
 
-Then you must exit the shell and start a new one for the Python virtual environment to be activated.
-
-```bash
-exit
-```
-
-## Tasks
-
-
-## License
-
-Licensed under the Apache License. See [LICENSE](/LICENSE)
-
-## Author
-
-Skills Network
-
-## <h3 align="center"> © IBM Corporation 2023. All rights reserved. <h3/>
-# Testing CI Trigger
+The Tekton tasks include a cleanup task to remove previous workspace files and a test task to install dependencies and run unit tests with Nose.
