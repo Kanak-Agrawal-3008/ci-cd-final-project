@@ -1,36 +1,36 @@
 
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: cleanup-task
-spec:
-  steps:
-    - name: cleanup
-      image: alpine:3.14
-      script: |
-        #!/bin/sh
-        set -e
-        echo "Cleaning workspace..."
-        rm -rf /workspace/*
+name: CI Pipeline
 
----
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: test-task
-spec:
-  steps:
-    - name: Run unit tests with nose
-      image: python:3.8
-      workingDir: /workspace
-      script: |
-        #!/bin/sh
-        set -e
-        echo "Installing dependencies..."
-        python -m pip install --upgrade pip
-        pip install flake8 nose
-        if [ -f requirements.txt ]; then
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 nose
           pip install -r requirements.txt
-        fi
-        echo "Running unit tests with nose..."
-        nosetests
+
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run unit tests with nose
+        run: |
+          nosetests
