@@ -193,6 +193,4 @@ exit
 <br>
 
 
-## Contact
-If you have any questions, please feel free to reach out via email: christian-schwanse (at) gmx.net<br>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
